@@ -41,6 +41,23 @@ class Bd {
 
         localStorage.setItem('id', id)
     }
+
+    recuperarTodosRegistros(){
+        let despesas = Array()
+
+        let id = localStorage.getItem('id')
+
+        for(let i = 1; i <= id; i++){
+            let despesa = JSON.parse(localStorage.getItem(i))
+
+            if(despesa === null){
+                continue
+            }
+
+            despesas.punch(despesa)
+        }
+        return despesas
+    }
 }
 
 let bd = new Bd()
@@ -71,7 +88,7 @@ function cadastrarDespesa() {
         document.getElementById('modal_conteudo').innerHTML = 'Despesa foi cadastrada com sucesso'
         document.getElementById('modal_btn').innerHTML = 'Voltar'
         document.getElementById('modal_btn').className = 'btn btn-success'
-        
+
         $('#modalRegistraDespesa').modal('show')
     } else {
         document.getElementById('modal_titulo').innerHTML = 'Erro na na inclusão do registro'
@@ -82,4 +99,11 @@ function cadastrarDespesa() {
 
         $('#modalRegistraDespesa').modal('show')
     }
+}
+
+function carregaListaDespesas(){
+    let despesas = Array()
+    despesas = bd.recuperarTodosRegistros()
+
+    console.log(despesas)
 }
