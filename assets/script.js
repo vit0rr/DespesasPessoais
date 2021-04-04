@@ -10,7 +10,7 @@ class Despesa {
 
     validarDados() {
         for (let i in this) {
-            if (this[i] == undefined || this[i] == '' || this[i] == ull) {
+            if (this[i] == undefined || this[i] == '' || this[i] == null) {
                 return false
             }
         }
@@ -65,7 +65,8 @@ function cadastrarDespesa() {
     )
     if (despesa.validarDados()) {
         bd.gravar(despesa)
+        $('#sucessoGravacao').modal('show')
     } else {
-
+        $('#erroGravacao').modal('show')
     }
 }
