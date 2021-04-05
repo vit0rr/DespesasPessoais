@@ -54,6 +54,7 @@ class Bd {
                 continue
             }
 
+            despesa.id = i
             despesas.push(despesa)
         }
         return despesas
@@ -89,6 +90,11 @@ class Bd {
         }
 
         return despesasFiltradas
+
+
+    }
+    remover(id){
+        localStorage.removeItem(id)
     }
 }
 
@@ -189,8 +195,18 @@ function carregaListaDespesas(despesas = Array(), filtro = false){
 
         //criar botao de excluir
         let btn = document.createElement('button')
-        linha.insertCell(4).append(btn)
-    })
+		btn.className = 'btn btn-danger'
+		btn.innerHTML = '<i class="fa fa-times"  ></i>'
+		btn.id = `id_despesa_${d.id}`
+		btn.onclick = function(){
+			let id = this.id.replace('id_despesa_','')
+			//alert(id)
+			bd.remover(id)
+			window.location.reload()
+		}
+		linha.insertCell(4).append(btn)
+		console.log(d)
+	})
 }
 
 function pesquisarDespesa(){
