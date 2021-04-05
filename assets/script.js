@@ -60,7 +60,35 @@ class Bd {
     }
 
     pesquisar(despesa){
-        console.log(despesa)
+        let despesasFiltradas = Array()
+        despesasFiltradas = this.recuperarTodosRegistros()
+        console.log(despesasFiltradas)
+
+        //ano
+        if(despesa.ano != ''){
+            despesasFiltradas = despesasFiltradas.filter(d => d.ano == despesa.ano)
+        }
+        
+        //mes
+        if(despesa.mes != ''){
+            despesasFiltradas = despesasFiltradas.filter(d => d.mes == despesa.mes)
+        }
+
+        //dia
+        if(despesa.dia != ''){
+            despesasFiltradas = despesasFiltradas.filter(d => d.dia == despesa.dia)
+        }
+
+        //tipo
+        if(despesa.tipo != ''){
+            despesasFiltradas = despesasFiltradas.filter(d => d.tipo == despesa.tipo)
+        }
+        //descricao
+        if(despesa.descricao != ''){
+            despesasFiltradas = despesasFiltradas.filter(d => d.descricao == despesa.descricao)
+        }
+
+        return despesasFiltradas
     }
 }
 
@@ -113,11 +141,15 @@ function cadastrarDespesa() {
     }
 }
 
-function carregaListaDespesas(){
-    let despesas = Array()
-    despesas = bd.recuperarTodosRegistros()
+function carregaListaDespesas(despesas = Array(), filtro = false){
+    if(despesas.length == 0 && filtro == false){
+        despesas = bd.recuperarTodosRegistros()
+    }  
+    
 
     var listaDespesas = document.getElementById('listaDespesas')
+    listaDespesas.innerHTML = ''
+    
 
     /*
     <tr>
@@ -154,6 +186,10 @@ function carregaListaDespesas(){
 
         linha.insertCell(2).innerHTML = d.descricao
         linha.insertCell(3).innerHTML = d.valor
+
+        //criar botao de excluir
+        let btn = document.createElement('button')
+        linha.insertCell(4).append(btn)
     })
 }
 
@@ -166,5 +202,7 @@ function pesquisarDespesa(){
     let valor = document.getElementById('valor').value
 
     let despesa = new Despesa(ano, mes, dia, tipo, descricao, valor)
-    bd.pesquisar(despesa)
+    let despesas = bd.pesquisar(despesa)
+
+   this.carregaListaDespesas(despesas, true)
 }
