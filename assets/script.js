@@ -42,15 +42,15 @@ class Bd {
         localStorage.setItem('id', id)
     }
 
-    recuperarTodosRegistros(){
+    recuperarTodosRegistros() {
         let despesas = Array()
 
         let id = localStorage.getItem('id')
 
-        for(let i = 1; i <= id; i++){
+        for (let i = 1; i <= id; i++) {
             let despesa = JSON.parse(localStorage.getItem(i))
 
-            if(despesa === null){
+            if (despesa === null) {
                 continue
             }
 
@@ -60,32 +60,32 @@ class Bd {
         return despesas
     }
 
-    pesquisar(despesa){
+    pesquisar(despesa) {
         let despesasFiltradas = Array()
         despesasFiltradas = this.recuperarTodosRegistros()
         console.log(despesasFiltradas)
 
         //ano
-        if(despesa.ano != ''){
+        if (despesa.ano != '') {
             despesasFiltradas = despesasFiltradas.filter(d => d.ano == despesa.ano)
         }
-        
+
         //mes
-        if(despesa.mes != ''){
+        if (despesa.mes != '') {
             despesasFiltradas = despesasFiltradas.filter(d => d.mes == despesa.mes)
         }
 
         //dia
-        if(despesa.dia != ''){
+        if (despesa.dia != '') {
             despesasFiltradas = despesasFiltradas.filter(d => d.dia == despesa.dia)
         }
 
         //tipo
-        if(despesa.tipo != ''){
+        if (despesa.tipo != '') {
             despesasFiltradas = despesasFiltradas.filter(d => d.tipo == despesa.tipo)
         }
         //descricao
-        if(despesa.descricao != ''){
+        if (despesa.descricao != '') {
             despesasFiltradas = despesasFiltradas.filter(d => d.descricao == despesa.descricao)
         }
 
@@ -93,7 +93,7 @@ class Bd {
 
 
     }
-    remover(id){
+    remover(id) {
         localStorage.removeItem(id)
     }
 }
@@ -128,7 +128,7 @@ function cadastrarDespesa() {
         document.getElementById('modal_btn').className = 'btn btn-success'
 
         $('#modalRegistraDespesa').modal('show')
-        
+
         //limpeza dos campos
         document.getElementById('ano').value = ''
         document.getElementById('mes').value = ''
@@ -147,15 +147,15 @@ function cadastrarDespesa() {
     }
 }
 
-function carregaListaDespesas(despesas = Array(), filtro = false){
-    if(despesas.length == 0 && filtro == false){
+function carregaListaDespesas(despesas = Array(), filtro = false) {
+    if (despesas.length == 0 && filtro == false) {
         despesas = bd.recuperarTodosRegistros()
-    }  
-    
+    }
+
 
     var listaDespesas = document.getElementById('listaDespesas')
     listaDespesas.innerHTML = ''
-    
+
 
     /*
     <tr>
@@ -166,14 +166,14 @@ function carregaListaDespesas(despesas = Array(), filtro = false){
             </tr>
     */
 
-    despesas.forEach(function(d){
+    despesas.forEach(function (d) {
         //criando a linha (tr)
         let linha = listaDespesas.insertRow()
 
         //inserir valores nas linhas (colunas ou td)
         linha.insertCell(0).innerHTML = `${d.dia}/${d.mes}/${d.ano}`
 
-        switch(d.tipo){
+        switch (d.tipo) {
             case '1': d.tipo = 'Alimentação'
                 break
             case '2': d.tipo = 'Educação'
@@ -183,7 +183,7 @@ function carregaListaDespesas(despesas = Array(), filtro = false){
                 break
             case '4': d.tipo = 'Saúde'
                 break
-            
+
             case '5': d.tipo = 'Transporte'
                 break
 
@@ -195,21 +195,21 @@ function carregaListaDespesas(despesas = Array(), filtro = false){
 
         //criar botao de excluir
         let btn = document.createElement('button')
-		btn.className = 'btn btn-danger'
-		btn.innerHTML = '<i class="fa fa-times"  ></i>'
-		btn.id = `id_despesa_${d.id}`
-		btn.onclick = function(){
-			let id = this.id.replace('id_despesa_','')
-			//alert(id)
-			bd.remover(id)
-			window.location.reload()
-		}
-		linha.insertCell(4).append(btn)
-		console.log(d)
-	})
+        btn.className = 'btn btn-danger'
+        btn.innerHTML = '<i class="fa fa-times"  ></i>'
+        btn.id = `id_despesa_${d.id}`
+        btn.onclick = function () {
+            let id = this.id.replace('id_despesa_', '')
+            //alert(id)
+            bd.remover(id)
+            window.location.reload()
+        }
+        linha.insertCell(4).append(btn)
+        console.log(d)
+    })
 }
 
-function pesquisarDespesa(){
+function pesquisarDespesa() {
     let ano = document.getElementById('ano').value
     let mes = document.getElementById('mes').value
     let dia = document.getElementById('dia').value
@@ -220,5 +220,5 @@ function pesquisarDespesa(){
     let despesa = new Despesa(ano, mes, dia, tipo, descricao, valor)
     let despesas = bd.pesquisar(despesa)
 
-   this.carregaListaDespesas(despesas, true)
+    this.carregaListaDespesas(despesas, true)
 }
