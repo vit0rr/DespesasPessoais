@@ -11,7 +11,7 @@ class Despesa {
 
     validarDados() {
         for (let i in this) {
-            if (this[i] == undefined || this[i] == '' || this[i] == null) {
+            if (this[i] == undefined || this[i] == '' || this[i] == null || this.dia > 31 || this.dia < 1) {
                 return false
             }
         }
