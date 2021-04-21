@@ -2,10 +2,11 @@ class Despesa {
     constructor(ano, mes, dia, tipo, descricao, valor) {
         this.ano = ano
         this.mes = mes
-        this.dia = dia
+        this.dia = Number(dia)
         this.tipo = tipo
-        this.descricao = descricao
-        this.valor = valor
+        this.descricao = descricao.replace(/(<([^>]+)>)/gi, '')
+        this.valor = Number(valor)
+
     }
 
     validarDados() {
@@ -171,7 +172,7 @@ function carregaListaDespesas(despesas = Array(), filtro = false) {
         let linha = listaDespesas.insertRow()
 
         //inserir valores nas linhas (colunas ou td)
-        linha.insertCell(0).innerHTML = `${Number(d.dia)}/${d.mes}/${d.ano}`
+        linha.insertCell(0).innerHTML = `${d.dia}/${d.mes}/${d.ano}`
 
         switch (d.tipo) {
             case '1': d.tipo = 'Alimentação'
@@ -191,7 +192,7 @@ function carregaListaDespesas(despesas = Array(), filtro = false) {
         
         linha.insertCell(1).innerHTML = d.tipo
         linha.insertCell(2).innerHTML = d.descricao
-        linha.insertCell(3).innerHTML = Number(d.valor)
+        linha.insertCell(3).innerHTML = d.valor
 
         //criar botao de excluir
         let btn = document.createElement('button')
