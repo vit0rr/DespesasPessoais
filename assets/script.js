@@ -131,12 +131,8 @@ function cadastrarDespesa() {
         $('#modalRegistraDespesa').modal('show')
 
         //limpeza dos campos
-        document.getElementById('ano').value = ''
-        document.getElementById('mes').value = ''
-        document.getElementById('dia').value = ''
-        document.getElementById('tipo').value = ''
-        document.getElementById('descricao').value = ''
-        document.getElementById('valor').value = ''
+        $('input').val('')
+        $('select').val('')
     } else {
         document.getElementById('modal_titulo').innerHTML = 'Erro na na inclusão do registro'
         document.getElementById('modal_titulo_div').className = 'modal-header text-danger'
