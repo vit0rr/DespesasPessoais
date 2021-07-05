@@ -206,6 +206,11 @@ function carregaListaDespesas(despesas = Array(), filtro = false) {
     })
 }
 
+function clearStorage() {
+    localStorage.clear()
+    location.reload()
+}
+
 function pesquisarDespesa() {
     let ano = document.getElementById('ano').value
     let mes = document.getElementById('mes').value
